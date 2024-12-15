@@ -34,10 +34,8 @@ private extension BadgeView {
 		
 		badgeLabel.frame = bounds
 		badgeLabel.textColor = .white
-		badgeLabel.font = UIFont.systemFont(ofSize: 12, weight: .bold)
+		badgeLabel.font = UIFont.systemFont(ofSize: 14, weight: .bold)
 		badgeLabel.textAlignment = .center
-		badgeLabel.layer.cornerRadius = bounds.width / 2
-		badgeLabel.layer.masksToBounds = true
 		addSubview(badgeLabel)
 	}
 }

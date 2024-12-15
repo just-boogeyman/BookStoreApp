@@ -8,7 +8,7 @@
 import UIKit
 
 class BookViewController: UIViewController {
-	private let reuseIdentifier = "reuseIdentifier"
+	private let cellIdentifier = "cellIdentifier"
 	private var collectionView: UICollectionView!
 	
 	var dataManager: IBookTypeManager!
@@ -22,21 +22,17 @@ class BookViewController: UIViewController {
 
 private extension BookViewController {
 	func setupView() {
-		let layout = createLayout()
-
-		collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-		collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-		
 		registerView()
-		
-
 		collectionView.backgroundColor = .black
 		collectionView.dataSource = self
-		
 		view.addSubview(collectionView)
 	}
 	
 	func registerView() {
+		let layout = createLayout()
+
+		collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+		collectionView.register(CustomCollectionViewCell.self, forCellWithReuseIdentifier: cellIdentifier)
 		collectionView.register(
 			SectionHeaderView.self,
 			forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
@@ -92,7 +88,7 @@ private extension BookViewController {
 		
 		let section = NSCollectionLayoutSection(group: group)
 		section.orthogonalScrollingBehavior = .continuous
-		section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 10, bottom: 20, trailing: 10)
+		section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 10, bottom: 40, trailing: 10)
 		section.boundarySupplementaryItems = [header]
 
 		return UICollectionViewCompositionalLayout(section: section)
@@ -160,9 +156,15 @@ extension BookViewController: UICollectionViewDataSource {
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
-		cell.backgroundColor = indexPath.section == 0 ? .systemCyan : .systemTeal
-		cell.layer.cornerRadius = 10
+		let book = dataManager.getBookTypes()[indexPath.section].books[indexPath.row]
+		guard
+			let cell = collectionView.dequeueReusableCell(
+				withReuseIdentifier: cellIdentifier,
+				for: indexPath
+			) as? CustomCollectionViewCell else { return UICollectionViewCell() }
+		
+		cell.configure(with: book.image)
+
 		return cell
 	}
 	
@@ -186,8 +188,9 @@ extension BookViewController: UICollectionViewDataSource {
 				for: indexPath) as! BadgeView
 			if book.isNew {
 				badge.configureBadge(text: "Новинка")
-			} else {
 				badge.isHidden = false
+			} else {
+				badge.isHidden = true
 			}
 			return badge
 		} else if kind == ElementKind.badgeInfo {

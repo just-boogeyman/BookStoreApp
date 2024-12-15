@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04018FBC2D0F146B00BCAB59 /* CustomCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04018FBB2D0F146B00BCAB59 /* CustomCollectionViewCell.swift */; };
 		044BCCC82D0C6ED3009C2848 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044BCCC72D0C6ED3009C2848 /* AppDelegate.swift */; };
 		044BCCCA2D0C6ED3009C2848 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044BCCC92D0C6ED3009C2848 /* SceneDelegate.swift */; };
 		044BCCCC2D0C6ED3009C2848 /* BookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044BCCCB2D0C6ED3009C2848 /* BookViewController.swift */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		04018FBB2D0F146B00BCAB59 /* CustomCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewCell.swift; sourceTree = "<group>"; };
 		044BCCC42D0C6ED3009C2848 /* BookStoreApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BookStoreApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		044BCCC72D0C6ED3009C2848 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		044BCCC92D0C6ED3009C2848 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 				04F6410D2D0EDFBD00D7FA85 /* SectionBackgroundDecorationView.swift */,
 				04F6410F2D0EDFFB00D7FA85 /* BadgeView.swift */,
 				04F641112D0F054800D7FA85 /* BadgeViewInfo.swift */,
+				04018FBB2D0F146B00BCAB59 /* CustomCollectionViewCell.swift */,
 			);
 			path = SupplementaryItem;
 			sourceTree = "<group>";
@@ -197,6 +200,7 @@
 				04F641102D0EDFFB00D7FA85 /* BadgeView.swift in Sources */,
 				04F6410C2D0ED4B100D7FA85 /* SectionFooterView.swift in Sources */,
 				044BCCCA2D0C6ED3009C2848 /* SceneDelegate.swift in Sources */,
+				04018FBC2D0F146B00BCAB59 /* CustomCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
