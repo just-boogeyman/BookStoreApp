@@ -16,8 +16,8 @@ class SectionHeaderView: UICollectionReusableView {
 		
 		label.frame = bounds // Размер лейбла, равень размер самого элемента SectionHeaderView
 		label.textAlignment = .left
-		label.font = UIFont(name: "Arial Rounded MT Bold", size: 24)
-		label.textColor = .white
+		label.font = UIFont(name: "Arial Rounded MT Bold", size: 16)
+		label.textColor = .darkGray
 		addSubview(label)
 	}
 	
