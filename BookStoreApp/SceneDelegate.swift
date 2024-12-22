@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 	func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
 		guard let windowScene = scene as? UIWindowScene else { return }
 		window = UIWindow(windowScene: windowScene)
-		window?.rootViewController = assembly(scene: .multeipleSection)
+		window?.rootViewController = assembly(scene: .bookView)
 		window?.makeKeyAndVisible()
 	}
 }
@@ -33,7 +33,10 @@ extension SceneDelegate {
 			vc.dataManager = bookTypeManager
 			return vc
 		case .multeipleSection:
-			return MulteipleSectionViewController()
+			let typeManager = BookTypeManager()
+			let vc = MulteipleSectionViewController()
+			vc.dataManager = typeManager
+			return vc
 		}
 	}
 }

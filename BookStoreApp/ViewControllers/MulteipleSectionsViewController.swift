@@ -12,6 +12,8 @@ class MulteipleSectionViewController: UIViewController {
 	private let reuseIdentifier = "reuseIdentifier"
 	private var collectionView: UICollectionView!
 	
+	var dataManager: IBookTypeManager!
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		setupView()
@@ -24,7 +26,7 @@ private extension MulteipleSectionViewController {
 		let layout = createLayout()
 		
 		collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-		collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+		collectionView.register(CustomCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
 		
 		collectionView.register(
 			SectionHeaderView.self,
@@ -151,15 +153,21 @@ private extension MulteipleSectionViewController {
 
 extension MulteipleSectionViewController: UICollectionViewDataSource {
 	func numberOfSections(in collectionView: UICollectionView) -> Int {
-		3
+		dataManager.getBookTypes().count
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		10
+		let books = dataManager.getBookTypes()[section].books
+		return books.count
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
+		let book = dataManager.getBookTypes()[indexPath.section].books[indexPath.row]
+
+		guard
+			let cell = collectionView.dequeueReusableCell(
+			withReuseIdentifier: reuseIdentifier, for: indexPath)
+				as? CustomCollectionViewCell else { return UICollectionViewCell() }
 		if indexPath.section == 0 {
 			cell.layer.cornerRadius = cell.frame.width / 2
 			cell.backgroundColor = .systemCyan
@@ -167,6 +175,7 @@ extension MulteipleSectionViewController: UICollectionViewDataSource {
 			cell.backgroundColor = indexPath.section == 1 ? .systemPurple : .systemTeal
 			cell.layer.cornerRadius = 10
 		}
+		cell.configure(with: book.image)
 		return cell
 	}
 	
@@ -175,11 +184,13 @@ extension MulteipleSectionViewController: UICollectionViewDataSource {
 		viewForSupplementaryElementOfKind kind: String,
 		at indexPath: IndexPath
 	) -> UICollectionReusableView {
+		let bookType = dataManager.getBookTypes()
+		let book = bookType[indexPath.section].books[indexPath.row]
 		
 		if kind == UICollectionView.elementKindSectionHeader {
 			let header = collectionView.dequeueReusableSupplementaryView(
 				ofKind: kind, withReuseIdentifier: SectionHeaderView.reuseIdentifier, for: indexPath) as! SectionHeaderView
-			header.configure(text: "Section \(indexPath.section + 1)")
+			header.configure(text: "\(bookType[indexPath.row].type)")
 			return header
 		}
 		return UICollectionReusableView()
