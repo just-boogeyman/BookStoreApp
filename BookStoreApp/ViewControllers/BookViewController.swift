@@ -27,8 +27,36 @@ class BookViewController: UIViewController {
 private extension BookViewController {
 	func setupView() {
 		registerView()
+		setupNavigationBar()
 		collectionView.backgroundColor = .black
+		collectionView.delegate = self
 		view.addSubview(collectionView)
+	}
+	
+	func setupNavigationBar() {
+		navigationItem.title = "Книги для души"
+
+		navigationController?.navigationBar.tintColor = .white
+		navigationController?.navigationBar.prefersLargeTitles = true
+		
+		let apperance = UINavigationBarAppearance()
+		
+		apperance.configureWithOpaqueBackground()
+		apperance.backgroundColor = .black
+		
+		apperance.titleTextAttributes = [
+			.foregroundColor: UIColor.white,
+			.font: UIFont.systemFont(ofSize: 18, weight: .bold)
+		]
+		
+		
+		apperance.largeTitleTextAttributes = [
+			.foregroundColor: UIColor.white,
+			.font: UIFont.systemFont(ofSize: 34, weight: .bold)
+		]
+		
+		navigationController?.navigationBar.standardAppearance = apperance
+		navigationController?.navigationBar.scrollEdgeAppearance = apperance
 	}
 	
 	func registerView() {
@@ -207,6 +235,18 @@ extension BookViewController {
 		}
 		
 		diffableDataSource.apply(snapshot, animatingDifferences: false)
+	}
+}
+
+extension BookViewController: UICollectionViewDelegate {
+	
+	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+		let detailVC = DetailViewController()
+		let bookType = dataManager.getBookTypes()
+		let book = bookType[indexPath.section].books[indexPath.row]
+		detailVC.configure(book: book)
+		
+		navigationController?.pushViewController(detailVC, animated: true)
 	}
 }
 
