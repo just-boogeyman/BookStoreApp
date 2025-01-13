@@ -37,7 +37,7 @@ private extension MulteipleSectionViewController {
 		)
 		
 		collectionView.backgroundColor = .white
-//		collectionView.dataSource = self
+		collectionView.dataSource = self
 		
 		view.addSubview(collectionView)
 	}
@@ -153,83 +153,83 @@ private extension MulteipleSectionViewController {
 }
 
 //
-//extension MulteipleSectionViewController: UICollectionViewDataSource {
-//	func numberOfSections(in collectionView: UICollectionView) -> Int {
-//		dataManager.getBookTypes().count
-//	}
-//
-//	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//		let books = dataManager.getBookTypes()[section].books
-//		return books.count
-//	}
-//
-//	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//		let book = dataManager.getBookTypes()[indexPath.section].books[indexPath.row]
-//		guard
-//			let cell = collectionView.dequeueReusableCell(
-//			withReuseIdentifier: reuseIdentifier, for: indexPath)
-//				as? CustomCollectionViewCell else { return UICollectionViewCell() }
-//		if indexPath.section == 0 {
-//			cell.layer.cornerRadius = cell.frame.width / 2
-//			cell.backgroundColor = .systemCyan
-//		} else {
-//			cell.backgroundColor = indexPath.section == 1 ? .systemPurple : .systemTeal
-//			cell.layer.cornerRadius = 10
-//		}
-//		cell.configure(with: book.image)
-//		return cell
-//	}
-////
-//	func collectionView(
-//		_ collectionView: UICollectionView,
-//		viewForSupplementaryElementOfKind kind: String,
-//		at indexPath: IndexPath
-//	) -> UICollectionReusableView {
-//		let bookType = dataManager.getBookTypes()
-//		let book = bookType[indexPath.section].books[indexPath.row]
-//
-//		if kind == UICollectionView.elementKindSectionHeader {
-//			let header = collectionView.dequeueReusableSupplementaryView(
-//				ofKind: kind, withReuseIdentifier: SectionHeaderView.reuseIdentifier, for: indexPath) as! SectionHeaderView
-//			header.configure(text: "\(bookType[indexPath.row].type)")
-//			return header
-//		}
-//		return UICollectionReusableView()
-//	}
-//}
-
-
-extension MulteipleSectionViewController {
-	func configureDataSource() {
-		diffableDataSource = UICollectionViewDiffableDataSource(
-			collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
-			guard
-				let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.reuseIdentifier, for: indexPath)
-					as? CustomCollectionViewCell else { return UICollectionViewCell() }
-			if indexPath.section == 0 {
-				cell.layer.cornerRadius = cell.frame.width / 2
-				cell.backgroundColor = .systemCyan
-			} else {
-				cell.backgroundColor = indexPath.section == 1 ? .systemPurple : .systemTeal
-				cell.layer.cornerRadius = 10
-			}
-			let book = self.dataManager.getBookTypes()[indexPath.section].books[indexPath.row]
-			cell.configure(with: book.image)
-			return cell
-		}
+extension MulteipleSectionViewController: UICollectionViewDataSource {
+	func numberOfSections(in collectionView: UICollectionView) -> Int {
+		dataManager.getBookTypes().count
 	}
-	
-	func applyInitialData() {
-		
-		let sections = dataManager.getBookTypes()
 
-		var snapshot = NSDiffableDataSourceSnapshot<BookType, Book>()
-		snapshot.appendSections(sections)
-		
-		for items in sections {
-			snapshot.appendItems(items.books, toSection: items)
+	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+		let books = dataManager.getBookTypes()[section].books
+		return books.count
+	}
+
+	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+		let book = dataManager.getBookTypes()[indexPath.section].books[indexPath.row]
+		guard
+			let cell = collectionView.dequeueReusableCell(
+			withReuseIdentifier: reuseIdentifier, for: indexPath)
+				as? CustomCollectionViewCell else { return UICollectionViewCell() }
+		if indexPath.section == 0 {
+			cell.layer.cornerRadius = cell.frame.width / 2
+			cell.backgroundColor = .systemCyan
+		} else {
+			cell.backgroundColor = indexPath.section == 1 ? .systemPurple : .systemTeal
+			cell.layer.cornerRadius = 10
 		}
-		
-		diffableDataSource.apply(snapshot, animatingDifferences: false)
+		cell.configure(with: book.image)
+		return cell
+	}
+//
+	func collectionView(
+		_ collectionView: UICollectionView,
+		viewForSupplementaryElementOfKind kind: String,
+		at indexPath: IndexPath
+	) -> UICollectionReusableView {
+		let bookType = dataManager.getBookTypes()
+		let book = bookType[indexPath.section].books[indexPath.row]
+
+		if kind == UICollectionView.elementKindSectionHeader {
+			let header = collectionView.dequeueReusableSupplementaryView(
+				ofKind: kind, withReuseIdentifier: SectionHeaderView.reuseIdentifier, for: indexPath) as! SectionHeaderView
+			header.configure(text: "\(bookType[indexPath.row].type)")
+			return header
+		}
+		return UICollectionReusableView()
 	}
 }
+
+
+//extension MulteipleSectionViewController {
+//	func configureDataSource() {
+//		diffableDataSource = UICollectionViewDiffableDataSource(
+//			collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
+//			guard
+//				let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.reuseIdentifier, for: indexPath)
+//					as? CustomCollectionViewCell else { return UICollectionViewCell() }
+//			if indexPath.section == 0 {
+//				cell.layer.cornerRadius = cell.frame.width / 2
+//				cell.backgroundColor = .systemCyan
+//			} else {
+//				cell.backgroundColor = indexPath.section == 1 ? .systemPurple : .systemTeal
+//				cell.layer.cornerRadius = 10
+//			}
+//			let book = self.dataManager.getBookTypes()[indexPath.section].books[indexPath.row]
+//			cell.configure(with: book.image)
+//			return cell
+//		}
+//	}
+//
+//	func applyInitialData() {
+//
+//		let sections = dataManager.getBookTypes()
+//
+//		var snapshot = NSDiffableDataSourceSnapshot<BookType, Book>()
+//		snapshot.appendSections(sections)
+//
+//		for items in sections {
+//			snapshot.appendItems(items.books, toSection: items)
+//		}
+//
+//		diffableDataSource.apply(snapshot, animatingDifferences: false)
+//	}
+//}

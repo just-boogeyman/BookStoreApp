@@ -9,14 +9,13 @@ import UIKit
 
 class DetailViewController: UIViewController {
 	
-//	var book: Book?
 	private let imageView = UIImageView()
 	private let infoLable = UILabel()
 	private let markButton = UIButton()
 	private var toggleButton = false
 	
-	override func viewWillAppear(_ animated: Bool) {
-		super.viewWillAppear(animated)
+	override func viewDidLoad() {
+		super.viewDidLoad()
 		setupView()
 		setupLayout()
 	}
@@ -37,55 +36,20 @@ class DetailViewController: UIViewController {
 extension DetailViewController {
 	
 	private func setupView() {
-		setupNavigationBar()
 		infoLable.textAlignment = .center
 		infoLable.font = UIFont(name: "Arial Rounded MT Bold", size: 24)
 		infoLable.textColor = .white
 		view.addSubview(imageView)
 		view.addSubview(infoLable)
 	}
-	
-	private func setupNavigationBar() {
-		navigationItem.title = "Книги для души"
-		
-		let mark = "heart.fill"
 
-		navigationItem.rightBarButtonItem = UIBarButtonItem(
-			image: UIImage(systemName: mark),
-			style: .plain,
-			target: self,
-			action: #selector(toggleMarkButton)
-		)
-		navigationController?.navigationBar.tintColor = .white
-		navigationController?.navigationBar.prefersLargeTitles = true
-		
-		let apperance = UINavigationBarAppearance()
-		
-		apperance.configureWithOpaqueBackground()
-		apperance.backgroundColor = .black
-		
-		apperance.titleTextAttributes = [
-			.foregroundColor: UIColor.white,
-			.font: UIFont.systemFont(ofSize: 18, weight: .bold)
-		]
-		
-		
-		apperance.largeTitleTextAttributes = [
-			.foregroundColor: UIColor.white,
-			.font: UIFont.systemFont(ofSize: 34, weight: .bold)
-		]
-		
-		navigationController?.navigationBar.standardAppearance = apperance
-		navigationController?.navigationBar.scrollEdgeAppearance = apperance
-	}
 	
 	private func setupLayout() {
 		[infoLable, imageView].forEach {$0.translatesAutoresizingMaskIntoConstraints = false}
 		
 		NSLayoutConstraint.activate([
-			view.topAnchor.constraint(equalTo: view.topAnchor, constant: 20),
-			
-			imageView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.6),
+			imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+			imageView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.4),
 			imageView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.75),
 			imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 
