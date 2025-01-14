@@ -7,11 +7,6 @@
 
 import UIKit
 
-enum Scene {
-	case bookView
-	case multeipleSection
-}
-
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 	var window: UIWindow?
@@ -19,24 +14,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 	func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
 		guard let windowScene = scene as? UIWindowScene else { return }
 		window = UIWindow(windowScene: windowScene)
-		window?.rootViewController = UINavigationController(rootViewController: assembly(scene: .bookView))
+		window?.rootViewController = UINavigationController(rootViewController: TabBarController())
 		window?.makeKeyAndVisible()
-	}
-}
-
-extension SceneDelegate {
-	func assembly(scene: Scene) -> UIViewController {
-		switch scene {
-		case .bookView:
-			let bookTypeManager = BookTypeManager()
-			let vc = BookViewController()
-			vc.dataManager = bookTypeManager
-			return vc
-		case .multeipleSection:
-			let typeManager = BookTypeManager()
-			let vc = MulteipleSectionViewController()
-			vc.dataManager = typeManager
-			return vc
-		}
 	}
 }
