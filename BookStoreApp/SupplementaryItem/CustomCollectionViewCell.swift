@@ -32,7 +32,6 @@ extension CustomCollectionViewCell {
 	private func setupViews() {
 		contentView.addSubview(viewContainer)
 		viewContainer.addSubview(imageView)
-		viewContainer.layer.cornerRadius = 20
 	}
 }
 
