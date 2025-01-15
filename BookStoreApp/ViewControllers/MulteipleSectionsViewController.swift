@@ -194,11 +194,10 @@ extension MulteipleSectionViewController: UICollectionViewDataSource {
 			withReuseIdentifier: reuseIdentifier, for: indexPath)
 				as? CustomCollectionViewCell else { return UICollectionViewCell() }
 		if indexPath.section == 0 {
-			cell.layer.cornerRadius = cell.frame.width / 2
-//			cell.backgroundColor = .systemCyan
+			cell.settingRadius(radius: cell.frame.width / 2)
 		} else {
 //			cell.backgroundColor = indexPath.section == 1 ? .systemPurple : .systemTeal
-			cell.layer.cornerRadius = 10
+			cell.settingRadius(radius: 10)
 		}
 		cell.configure(with: book.image)
 		return cell

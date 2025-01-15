@@ -186,6 +186,7 @@ extension BookViewController {
 				let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.cellIdentifier, for: indexPath)
 					as? CustomCollectionViewCell else { return UICollectionViewCell() }
 			cell.configure(with: book.image)
+			cell.settingRadius(radius: 5)
 			return cell
 		}
 		

@@ -26,6 +26,11 @@ class CustomCollectionViewCell: UICollectionViewCell {
 	func configure(with imageName: String) {
 		imageView.image = UIImage(named: imageName)
 	}
+	
+	func settingRadius(radius: CGFloat) {
+		contentView.layer.cornerRadius = radius
+		contentView.layer.masksToBounds = true
+	}
 }
 
 extension CustomCollectionViewCell {
