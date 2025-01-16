@@ -16,8 +16,10 @@ class DetailViewController: UIViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		settingNavigation()
 		setupView()
 		setupLayout()
+		view.backgroundColor = .black
 	}
 	
 	func configure(book: Book) {
@@ -28,8 +30,6 @@ class DetailViewController: UIViewController {
 	@objc
 	private func toggleMarkButton() {
 		toggleButton.toggle()
-		let mark = toggleButton ? "heart" : "heart.fill"
-		navigationItem.rightBarButtonItem?.image = UIImage(systemName: mark)
 	}
 }
 
@@ -41,6 +41,16 @@ extension DetailViewController {
 		infoLable.textColor = .white
 		view.addSubview(imageView)
 		view.addSubview(infoLable)
+	}
+	
+	private func settingNavigation() {
+		let mark = toggleButton ? "heart" : "heart.fill"
+		navigationItem.rightBarButtonItem = UIBarButtonItem(
+			image: UIImage(systemName: mark),
+			style: .done,
+			target: self,
+			action: #selector(toggleMarkButton)
+		)
 	}
 
 	

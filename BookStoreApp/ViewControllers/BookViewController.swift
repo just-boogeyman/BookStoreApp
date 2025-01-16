@@ -205,12 +205,8 @@ extension BookViewController {
 					ofKind: kind,
 					withReuseIdentifier: BadgeView.reuseIdentifier,
 					for: indexPath) as! BadgeView
-				if book.isNew {
-					badge.configureBadge(text: "Новинка")
-					badge.isHidden = false
-				} else {
-					badge.isHidden = true
-				}
+				badge.configureBadge(text: "Новинка")
+				badge.isHidden = !book.isNew
 				return badge
 			} else if kind == ElementKind.badgeInfo {
 				let infoBadge = collectionView.dequeueReusableSupplementaryView(
