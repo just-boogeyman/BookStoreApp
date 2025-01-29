@@ -10,6 +10,7 @@ import UIKit
 class BookViewController: UIViewController {
 	private let cellIdentifier = "cellIdentifier"
 	private var collectionView: UICollectionView!
+	var booksTypes: [BookType] = []
 	
 	private var diffableDataSource: UICollectionViewDiffableDataSource<BookType, Book>!
 	
@@ -30,6 +31,7 @@ private extension BookViewController {
 		setupNavigationBar()
 		collectionView.backgroundColor = .black
 		collectionView.delegate = self
+		
 		view.addSubview(collectionView)
 	}
 	
@@ -181,7 +183,7 @@ extension BookViewController {
 		
 		diffableDataSource = UICollectionViewDiffableDataSource(
 			collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
-			let book = self.dataManager.getBookTypes()[indexPath.section].books[indexPath.row]
+			let book = self.booksTypes[indexPath.section].books[indexPath.row]
 			guard
 				let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.cellIdentifier, for: indexPath)
 					as? CustomCollectionViewCell else { return UICollectionViewCell() }
@@ -191,7 +193,7 @@ extension BookViewController {
 		}
 		
 		diffableDataSource.supplementaryViewProvider = { collectionView, kind, indexPath in
-			let bookType = self.dataManager.getBookTypes()
+			let bookType = self.booksTypes
 			let book = bookType[indexPath.section].books[indexPath.row]
 
 			if kind == UICollectionView.elementKindSectionHeader {
@@ -223,14 +225,14 @@ extension BookViewController {
 	func applyInitialData() {
 		var snapshot = NSDiffableDataSourceSnapshot<BookType, Book>()
 		
-		let sections = dataManager.getBookTypes()
+		let sections = booksTypes
 		snapshot.appendSections(sections)
 		
 		for items in sections {
 			snapshot.appendItems(items.books, toSection: items)
 		}
 		
-		diffableDataSource.apply(snapshot, animatingDifferences: false)
+		diffableDataSource.apply(snapshot, animatingDifferences: true)
 	}
 }
 
@@ -238,11 +240,76 @@ extension BookViewController: UICollectionViewDelegate {
 	
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		let detailVC = DetailViewController()
-		let bookType = dataManager.getBookTypes()
+		let bookType = booksTypes
 		let book = bookType[indexPath.section].books[indexPath.row]
 		detailVC.configure(book: book)
 		
 		navigationController?.pushViewController(detailVC, animated: true)
+	}
+	
+	func collectionView(
+		_ collectionView: UICollectionView,
+		contextMenuConfigurationForItemsAt indexPaths: [IndexPath],
+		point: CGPoint
+	) -> UIContextMenuConfiguration? {
+		
+		UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
+			let delete = UIAction(
+				title: "Удалить",
+				image: UIImage(systemName: "trash"),
+				attributes: .destructive
+			) { _ in
+				collectionView.performBatchUpdates {
+					for indexPath in indexPaths {
+						self.booksTypes[indexPath.section].books.remove(at: indexPath.item)
+					}
+					self.applyInitialData()
+				}
+			}
+			
+			let new = UIAction(
+				title: "Новинка",
+				image: UIImage(named: "heart")
+			) { _ in
+				collectionView.performBatchUpdates {
+					for indexPath in indexPaths {
+						self.booksTypes[indexPath.section].books[indexPath.row].isNew = true
+					}
+					self.applyInitialData()
+				}
+			}
+						
+			let top = UIAction(
+				title: "Переместить в начало",
+				image: UIImage(systemName: "arrowshape.turn.up.left")
+			) { _ in
+				collectionView.performBatchUpdates {
+					for indexPath in indexPaths {
+						let book = self.booksTypes[indexPath.section].books.remove(at: indexPath.item)
+						self.booksTypes[indexPath.section].books.insert(book, at: 0)
+
+					}
+					self.applyInitialData()
+				}
+			}
+			
+			let copy = UIAction(
+				title: "Копировать",
+				image: UIImage(named: "copy")
+			) { _ in
+				collectionView.performBatchUpdates {
+					for indexPath in indexPaths {
+						var book = self.booksTypes[indexPath.section].books[indexPath.row]
+						book.title = "\(book.title)" + "1" // что бы мы могли копировать сколько хотим исключая уникальных элементов
+						self.booksTypes[indexPath.section].books.insert(book, at: 0)
+
+					}
+					self.applyInitialData()
+				}
+			}
+			
+			return UIMenu(title: "Options", children: [new, top, copy, delete])
+		}
 	}
 }
 

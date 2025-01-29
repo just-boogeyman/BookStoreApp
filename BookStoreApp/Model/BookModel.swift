@@ -12,11 +12,11 @@ struct BookType: Hashable {
 
 	
 	let type: String
-	let books: [Book]
+	var books: [Book]
 }
 
 struct Book: Hashable {
 	let image: String
-	let title: String
+	var title: String
 	var isNew = false
 }

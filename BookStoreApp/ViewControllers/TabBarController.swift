@@ -45,6 +45,7 @@ private extension TabBarController {
 			case .bookVC:
 				let vc = BookViewController()
 				vc.dataManager = bookTypeManager
+				vc.booksTypes = bookTypeManager.getBookTypes()
 				return UINavigationController(rootViewController: vc)
 			case .multeipleVC:
 				let vc = MulteipleSectionViewController()
