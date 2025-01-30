@@ -27,7 +27,8 @@ enum TabBarItem {
 	}
 }
 
-class TabBarController: UITabBarController {
+
+final class TabBarController: UITabBarController {
 	private let dataSource: [TabBarItem] = [.bookVC, .multeipleVC]
 	
 	override func viewDidLoad() {
@@ -44,8 +45,8 @@ private extension TabBarController {
 			switch $0 {
 			case .bookVC:
 				let vc = BookViewController()
-				vc.dataManager = bookTypeManager
-				vc.booksTypes = bookTypeManager.getBookTypes()
+				let bookManager: IBookManager = BookManager(bookTypes: bookTypeManager.getBookTypes())
+				vc.dataManager = bookManager
 				return UINavigationController(rootViewController: vc)
 			case .multeipleVC:
 				let vc = MulteipleSectionViewController()

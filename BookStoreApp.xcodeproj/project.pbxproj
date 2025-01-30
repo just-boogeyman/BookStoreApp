@@ -15,6 +15,8 @@
 		044BCCD42D0C6ED4009C2848 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 044BCCD22D0C6ED4009C2848 /* LaunchScreen.storyboard */; };
 		0496E6752D33D2EC00A18A24 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0496E6742D33D2EC00A18A24 /* DetailViewController.swift */; };
 		0496E6792D3698AF00A18A24 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0496E6782D3698AF00A18A24 /* TabBarController.swift */; };
+		04CE37B22D4BC304002390B8 /* Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CE37B12D4BC304002390B8 /* Manager.swift */; };
+		04CE37B52D4BCF19002390B8 /* ExtensionLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CE37B42D4BCF19002390B8 /* ExtensionLayout.swift */; };
 		04D8D28B2D128BD100B801B9 /* MulteipleSectionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D8D28A2D128BD100B801B9 /* MulteipleSectionsViewController.swift */; };
 		04F641032D0DBAD400D7FA85 /* BookModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F641022D0DBAD400D7FA85 /* BookModel.swift */; };
 		04F641052D0DBAE600D7FA85 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F641042D0DBAE600D7FA85 /* DataManager.swift */; };
@@ -36,6 +38,8 @@
 		044BCCD52D0C6ED4009C2848 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0496E6742D33D2EC00A18A24 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		0496E6782D3698AF00A18A24 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		04CE37B12D4BC304002390B8 /* Manager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manager.swift; sourceTree = "<group>"; };
+		04CE37B42D4BCF19002390B8 /* ExtensionLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionLayout.swift; sourceTree = "<group>"; };
 		04D8D28A2D128BD100B801B9 /* MulteipleSectionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MulteipleSectionsViewController.swift; sourceTree = "<group>"; };
 		04F641022D0DBAD400D7FA85 /* BookModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookModel.swift; sourceTree = "<group>"; };
 		04F641042D0DBAE600D7FA85 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
@@ -89,6 +93,14 @@
 			path = BookStoreApp;
 			sourceTree = "<group>";
 		};
+		04CE37B32D4BCED4002390B8 /* BookViewController+Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				04CE37B42D4BCF19002390B8 /* ExtensionLayout.swift */,
+			);
+			path = "BookViewController+Extensions";
+			sourceTree = "<group>";
+		};
 		04F641002D0DBAA000D7FA85 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -101,6 +113,7 @@
 			isa = PBXGroup;
 			children = (
 				04F641042D0DBAE600D7FA85 /* DataManager.swift */,
+				04CE37B12D4BC304002390B8 /* Manager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -108,6 +121,7 @@
 		04F641062D0DBB1A00D7FA85 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				04CE37B32D4BCED4002390B8 /* BookViewController+Extensions */,
 				044BCCCB2D0C6ED3009C2848 /* BookViewController.swift */,
 				04D8D28A2D128BD100B801B9 /* MulteipleSectionsViewController.swift */,
 				0496E6742D33D2EC00A18A24 /* DetailViewController.swift */,
@@ -203,12 +217,14 @@
 				04F6410E2D0EDFBD00D7FA85 /* SectionBackgroundDecorationView.swift in Sources */,
 				044BCCCC2D0C6ED3009C2848 /* BookViewController.swift in Sources */,
 				04F6410A2D0ECAFF00D7FA85 /* SectionHeaderView.swift in Sources */,
+				04CE37B22D4BC304002390B8 /* Manager.swift in Sources */,
 				04F641052D0DBAE600D7FA85 /* DataManager.swift in Sources */,
 				04D8D28B2D128BD100B801B9 /* MulteipleSectionsViewController.swift in Sources */,
 				04F641122D0F054800D7FA85 /* BadgeViewInfo.swift in Sources */,
 				044BCCC82D0C6ED3009C2848 /* AppDelegate.swift in Sources */,
 				04F641032D0DBAD400D7FA85 /* BookModel.swift in Sources */,
 				04F641102D0EDFFB00D7FA85 /* BadgeView.swift in Sources */,
+				04CE37B52D4BCF19002390B8 /* ExtensionLayout.swift in Sources */,
 				04F6410C2D0ED4B100D7FA85 /* SectionFooterView.swift in Sources */,
 				0496E6792D3698AF00A18A24 /* TabBarController.swift in Sources */,
 				044BCCCA2D0C6ED3009C2848 /* SceneDelegate.swift in Sources */,

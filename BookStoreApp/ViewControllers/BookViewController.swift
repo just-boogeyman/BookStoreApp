@@ -7,14 +7,13 @@
 
 import UIKit
 
-class BookViewController: UIViewController {
-	private let cellIdentifier = "cellIdentifier"
+final class BookViewController: UIViewController {
+	private let cellIdentifier = Constants.cellIdentifier
 	private var collectionView: UICollectionView!
-	var booksTypes: [BookType] = []
 	
 	private var diffableDataSource: UICollectionViewDiffableDataSource<BookType, Book>!
 	
-	var dataManager: IBookTypeManager!
+	var dataManager: IBookManager!
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -36,7 +35,7 @@ private extension BookViewController {
 	}
 	
 	func setupNavigationBar() {
-		navigationItem.title = "Книги для души"
+		navigationItem.title = Constants.titleNavigationBar
 
 		navigationController?.navigationBar.tintColor = .white
 		navigationController?.navigationBar.prefersLargeTitles = true
@@ -183,7 +182,7 @@ extension BookViewController {
 		
 		diffableDataSource = UICollectionViewDiffableDataSource(
 			collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
-			let book = self.booksTypes[indexPath.section].books[indexPath.row]
+				let book = self.dataManager.getBookType()[indexPath.section].books[indexPath.row]
 			guard
 				let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.cellIdentifier, for: indexPath)
 					as? CustomCollectionViewCell else { return UICollectionViewCell() }
@@ -193,7 +192,7 @@ extension BookViewController {
 		}
 		
 		diffableDataSource.supplementaryViewProvider = { collectionView, kind, indexPath in
-			let bookType = self.booksTypes
+			let bookType = self.dataManager.getBookType()
 			let book = bookType[indexPath.section].books[indexPath.row]
 
 			if kind == UICollectionView.elementKindSectionHeader {
@@ -207,7 +206,7 @@ extension BookViewController {
 					ofKind: kind,
 					withReuseIdentifier: BadgeView.reuseIdentifier,
 					for: indexPath) as! BadgeView
-				badge.configureBadge(text: "Новинка")
+				badge.configureBadge(text: Constants.configureBadgeNew)
 				badge.isHidden = !book.isNew
 				return badge
 			} else if kind == ElementKind.badgeInfo {
@@ -225,7 +224,7 @@ extension BookViewController {
 	func applyInitialData() {
 		var snapshot = NSDiffableDataSourceSnapshot<BookType, Book>()
 		
-		let sections = booksTypes
+		let sections = dataManager.getBookType()
 		snapshot.appendSections(sections)
 		
 		for items in sections {
@@ -234,13 +233,26 @@ extension BookViewController {
 		
 		diffableDataSource.apply(snapshot, animatingDifferences: true)
 	}
+	
+	func setupMenu(menuButton: MenuButton, indexPath: IndexPath) {
+		switch menuButton {
+		case .delete:
+			dataManager.removeBook(section: indexPath.section, item: indexPath.item)
+		case .new:
+			dataManager.markIsNew(indexPath: indexPath)
+		case .top:
+			dataManager.moveTop(indexPath: indexPath)
+		case .copy:
+			dataManager.copyBook(indexPath: indexPath)
+		}
+	}
 }
 
 extension BookViewController: UICollectionViewDelegate {
 	
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		let detailVC = DetailViewController()
-		let bookType = booksTypes
+		let bookType = dataManager.getBookType()
 		let book = bookType[indexPath.section].books[indexPath.row]
 		detailVC.configure(book: book)
 		
@@ -254,61 +266,24 @@ extension BookViewController: UICollectionViewDelegate {
 	) -> UIContextMenuConfiguration? {
 		
 		UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
-			let delete = UIAction(
-				title: "Удалить",
-				image: UIImage(systemName: "trash"),
-				attributes: .destructive
-			) { _ in
-				collectionView.performBatchUpdates {
-					for indexPath in indexPaths {
-						self.booksTypes[indexPath.section].books.remove(at: indexPath.item)
-					}
-					self.applyInitialData()
-				}
-			}
 			
-			let new = UIAction(
-				title: "Новинка",
-				image: UIImage(named: "heart")
-			) { _ in
-				collectionView.performBatchUpdates {
-					for indexPath in indexPaths {
-						self.booksTypes[indexPath.section].books[indexPath.row].isNew = true
-					}
-					self.applyInitialData()
-				}
-			}
-						
-			let top = UIAction(
-				title: "Переместить в начало",
-				image: UIImage(systemName: "arrowshape.turn.up.left")
-			) { _ in
-				collectionView.performBatchUpdates {
-					for indexPath in indexPaths {
-						let book = self.booksTypes[indexPath.section].books.remove(at: indexPath.item)
-						self.booksTypes[indexPath.section].books.insert(book, at: 0)
+			let actions: [MenuButton] = [.new, .top, .copy, .delete]
 
+			let uiActions = actions.map { action in
+				UIAction(
+					title: action.title,
+					image: action.icon,
+					attributes: action.title == Constants.delete ? .destructive : []
+				) { _ in
+					collectionView.performBatchUpdates {
+						for indexPath in indexPaths {
+							self.setupMenu(menuButton: action, indexPath: indexPath)
+						}
+						self.applyInitialData()
 					}
-					self.applyInitialData()
 				}
 			}
-			
-			let copy = UIAction(
-				title: "Копировать",
-				image: UIImage(named: "copy")
-			) { _ in
-				collectionView.performBatchUpdates {
-					for indexPath in indexPaths {
-						var book = self.booksTypes[indexPath.section].books[indexPath.row]
-						book.title = "\(book.title)" + "1" // что бы мы могли копировать сколько хотим исключая уникальных элементов
-						self.booksTypes[indexPath.section].books.insert(book, at: 0)
-
-					}
-					self.applyInitialData()
-				}
-			}
-			
-			return UIMenu(title: "Options", children: [new, top, copy, delete])
+			return UIMenu(title: Constants.titleMenu, children: uiActions)
 		}
 	}
 }
@@ -319,4 +294,41 @@ extension BookViewController {
 		static let badge = "badge-element-kind"
 		static let badgeInfo = "badge-element-info-kind"
 	}
+}
+
+enum MenuButton {
+	case delete
+	case new
+	case top
+	case copy
+	
+	var title: String {
+		switch self {
+		case .delete: return "Удалить"
+		case .new: return "Новинка"
+		case .top: return "Перенести в начало"
+		case .copy: return "Копировать"
+		}
+	}
+	
+	var icon: UIImage? {
+		switch self {
+		case .delete:
+			UIImage(systemName: "trash")
+		case .new:
+			UIImage(resource: .heart)
+		case .top:
+			UIImage(systemName: "arrowshape.turn.up.left")
+		case .copy:
+			UIImage(resource: .copy)
+		}
+	}
+}
+
+enum Constants {
+	static let cellIdentifier = "cellIdentifier"
+	static let delete = "Удалить"
+	static let titleMenu = "Управление"
+	static let titleNavigationBar = "Книги для души"
+	static let configureBadgeNew = "Новинка"
 }

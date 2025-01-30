@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DetailViewController: UIViewController {
+final class DetailViewController: UIViewController {
 	
 	private let imageView = UIImageView()
 	private let infoLable = UILabel()

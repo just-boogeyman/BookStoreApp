@@ -8,7 +8,7 @@
 import UIKit
 
 
-class MulteipleSectionViewController: UIViewController {
+final class MulteipleSectionViewController: UIViewController {
 	private let reuseIdentifier = "reuseIdentifier"
 	private var collectionView: UICollectionView!
 	private var diffableDataSource: UICollectionViewDiffableDataSource<BookType, Book>!
