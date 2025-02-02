@@ -7,7 +7,7 @@
 
 import UIKit
 
-class BadgeViewInfo: UICollectionReusableView {
+final class BadgeViewInfo: UICollectionReusableView {
 	static let reuseIdentifier = "BadgeViewInfo"
 	private let badgeLabel = UILabel()
 	private let viewContainer = UIView()

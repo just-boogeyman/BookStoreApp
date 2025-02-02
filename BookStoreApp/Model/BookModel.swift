@@ -9,8 +9,6 @@ import Foundation
 
 
 struct BookType: Hashable {
-
-	
 	let type: String
 	var books: [Book]
 }

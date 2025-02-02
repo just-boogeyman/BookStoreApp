@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SectionFooterView: UICollectionReusableView {
+final class SectionFooterView: UICollectionReusableView {
 	static let reuseIdentifier = "FooterView"
 	private let label = UILabel()
 	

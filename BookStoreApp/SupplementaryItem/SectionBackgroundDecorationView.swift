@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SectionBackgroundDecorationView: UICollectionReusableView {
+final class SectionBackgroundDecorationView: UICollectionReusableView {
 	static let reuseIdentifier = "SectionBackgroundDecorationView"
 	
 	override init(frame: CGRect) {

@@ -12,7 +12,7 @@ protocol IBookTypeManager {
 	func getBookTypes() -> [BookType]
 }
 
-class BookTypeManager {}
+final class BookTypeManager {}
 
 extension BookTypeManager: IBookTypeManager {
 	func getBookTypes() -> [BookType] {
